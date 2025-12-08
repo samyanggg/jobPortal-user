@@ -1,0 +1,74 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background-color: #000;
+}
+
+.page-frame {
+  border: 8px solid #000;
+  background: #fff;
+  overflow: hidden;
+}
+
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 25px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  width: 50px;
+  margin-right: 10px;
+}
+
+.brand-title {
+  font-weight: bold;
+  color: #222;
+}
+
+.nav-actions button {
+  margin-left: 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  color: #fff;
+}
+
+.btn-signin {
+  background: #2db64f;
+}
+
+.btn-register {
+  background: #1e73be;
+}
+
+.hero {
+  position: relative;
+  background: url('../images/backround1.png') no-repeat center center/cover;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* moves content to top */
+  text-align: center;
+  padding-top: 150px; /* adjust this to move text up or down */
+}
+
+.hero-title {
+  font-size: 40px;
+  color: black;
+  font-weight: bold;
+  text-align: center;
+}
+
+.hero-highlight {
+  color: #1e73be;
+}

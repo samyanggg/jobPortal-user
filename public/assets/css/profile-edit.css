@@ -1,0 +1,107 @@
+/* ===== EDIT PROFILE PAGE ===== */
+
+/* Main container */
+.edit-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    background-color: #fff;
+    min-height: calc(100vh - 80px); /* below header */
+}
+
+/* Card */
+.edit-card {
+    background: white;
+    width: 100%;
+    max-width: 900px;
+    padding: 35px 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Title */
+.edit-card h2 {
+    text-align: center;
+    color: #003366;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+/* Form labels */
+.edit-card label {
+    font-weight: bold;
+    margin-top: 12px;
+    color: #003366;
+    display: block;
+}
+
+/* Form inputs */
+.edit-card input,
+.edit-card textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #bbb;
+    border-radius: 6px;
+    margin-top: 5px;
+    font-size: 14px;
+    color: #333;
+}
+
+.edit-card textarea {
+    height: 120px;
+    resize: none;
+}
+
+/* Submit button */
+.save-btn {
+    width: 100%;
+    background: #0052cc;
+    border: none;
+    padding: 12px;
+    margin-top: 20px;
+    color: white;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.save-btn:hover {
+    background-color: #003d99;
+}
+
+/* Back button above form */
+.back-btn-top {
+    background-color: #0052cc;
+    color: white;
+    padding: 8px 14px;
+    display: inline-block;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    font-size: 14px;
+    text-decoration: none;
+    transition: .2s;
+}
+
+.back-btn-top:hover {
+    background-color: #003d99;
+}
+
+/* Avatar preview */
+.edit-avatar {
+    display: block;
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    border: 3px solid #004080;
+    margin: 0 auto 20px auto;
+    object-fit: cover;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .edit-card {
+        padding: 25px;
+    }
+}
