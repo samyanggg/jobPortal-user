@@ -27,26 +27,22 @@
     </header>
 
     <div class="dashboard">
-      <!-- SIDEBAR -->
-      <aside class="sidebar">
-        <h3>DASHBOARD</h3>
-        <button class="side-btn">Profile</button>
-        <button class="side-btn">Available Job</button>
-        <button class="side-btn active">Notification</button>
-      </aside>
 
-      <!-- MAIN CONTENT -->
       <main class="main-content">
         <h3>Welcome back!!</h3>
         <p class="subtitle">Here’s what’s happening with your job today.</p>
 
-        <!-- Example Notification -->
-        <div class="notification-card">
-          <div class="notification-text">
-            <strong>DOLE</strong> — Your application form has been submitted.
-          </div>
-          <button class="view-btn" onclick="viewNotification()">View</button>
-        </div>
+          @forelse($notifications as $notification)
+              <div class="notification-card" >
+                  <div class="notification-text">
+                      <strong>DOLE</strong> — {{ $notification->message }}
+                  </div>
+
+              </div>
+          @empty
+              <p>No Notification</p>
+          @endforelse
+
       </main>
     </div>
   </div>

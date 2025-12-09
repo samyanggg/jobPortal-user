@@ -1,42 +1,32 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\ApplicationFormController;
+use App\Http\Controllers\NotificationController;
 
-// Front page
 Route::get('/', function () {
     return view('frontpage');
 });
 
-// Login page
-Route::get('/login', function () {
-    return view('login');
-})->name('login');
 
-// When user submits login — go to dashboard directly
-Route::post('/login', function () {
-    return redirect('/dashboard');
-})->name('login.submit');
+Route::get('/register', [AuthController::class, 'viewRegister'])->name('viewRegister');
+Route::post('/register', [AuthController::class, 'register'])->name('register');
 
-// Register page
-Route::get('/register', function () {
-    return view('register');
-})->name('register');
+Route::get('/login', [AuthController::class, 'viewLogin'])->name('viewLogin');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// Dashboard (no auth required)
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
 
-// Profile pages (NO controller)
-Route::get('/profile', function () {
-    return view('profile');
-})->name('profile.show');
+Route::get('/dashboard', [UserController::class, 'viewUserDashboard'])->name('viewUserDashboard');
+Route::get('/profile', [UserController::class, 'viewProfile'])->name('viewProfile');
+Route::post('/profile/update', [UserController::class, 'updateProfile'])->name('updateProfile');
 
-Route::get('/profile/edit', function () {
-    return view('profile-edit');
-})->name('profile.edit');
 
-Route::post('/profile/update', function () {
-    // just return back for now
-    return back()->with('success', 'Profile updated!');
-})->name('profile.update');
+Route::get('/application-form/{id}', [ApplicationFormController::class, 'viewApplicationForm'])->name('viewApplicationForm');
+Route::post('/submit/application-form/{id}', [ApplicationFormController::class, 'submitApplicationForm'])->name('submitApplicationForm');
+
+Route::get('/view-notification', [NotificationController::class, 'viewNotification'])->name('viewNotification');
+
+

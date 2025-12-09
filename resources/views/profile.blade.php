@@ -1,141 +1,191 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Profile | Job Portal</title>
-  <link rel="stylesheet" href="{{ asset('assets/css/profile.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f8f9fa;
+            padding: 40px;
+        }
+
+        .profile-container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            font-size: 26px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .info-group {
+            margin-bottom: 15px;
+        }
+
+        .info-group label {
+            font-weight: bold;
+        }
+
+        .info-group span {
+            color: #444;
+        }
+
+        .edit-input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        .btn {
+            margin-top: 15px;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .btn-edit {
+            background: #0069d9;
+            color: white;
+        }
+
+        .btn-save {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-cancel {
+            background: #dc3545;
+            color: white;
+        }
+    </style>
 </head>
+
 <body>
-  <div class="container">
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-      <div>
-        <div class="logo">
-          <img src="{{ asset('assets/images/logo.png') }}" alt="Logo" />
-          <h2>JOB PORTAL</h2>
+<div class="profile-container">
+    <h2>My Profile</h2>
+
+    {{-- Display Mode --}}
+    <div id="displayMode">
+        <div class="info-group">
+            <label>Name:</label><br>
+            <span id="dName">{{ auth()->user()->name }}</span>
         </div>
-      </div>
-    </aside>
 
-    <!-- MAIN CONTENT -->
-    <main class="main-content">
-      <header class="header">
-        <div>
-          <h2>My Profile</h2>
-          <p>View and edit your personal information</p>
+        <div class="info-group">
+            <label>Email:</label><br>
+            <span id="dEmail">{{ auth()->user()->email }}</span>
         </div>
-      </header>
 
-      <section class="profile-section">
-        <div class="profile-card">
+        <div class="info-group">
+            <label>Contact Number:</label><br>
+            <span id="dContact">{{ auth()->user()->contact_number }}</span>
+        </div>
 
-          <img src="{{ asset('assets/images/profile.jpg') }}" class="profile-img" alt="Profile Picture">
+        <div class="info-group">
+            <label>Age:</label><br>
+            <span id="dAge">{{ auth()->user()->age }}</span>
+        </div>
 
-          <!-- DISPLAY MODE -->
-          <div id="displayMode">
-            @if(auth()->check()) <!-- Check if user is authenticated -->
-              <div class="info-box"><label>Name:</label><span id="pname2">{{ auth()->user()->name }}</span></div>
-              <div class="info-box"><label>Email:</label><span id="pemail">{{ auth()->user()->email }}</span></div>
-              <div class="info-box"><label>Phone:</label><span id="pphone">{{ auth()->user()->phone }}</span></div>
-              <div class="info-box"><label>Age:</label><span id="page">{{ auth()->user()->age }}</span></div>
-              <div class="info-box"><label>Address:</label><span id="paddress">{{ auth()->user()->address }}</span></div>
-              <div class="info-box"><label>About Me:</label><span id="pbio">{{ auth()->user()->about }}</span></div>
+        <div class="info-group">
+            <label>Address:</label><br>
+            <span id="dAddress">{{ auth()->user()->address }}</span>
+        </div>
 
-              <div class="profile-buttons">
-                <a href="/dashboard" class="back-btn">Back To Dashboard</a>
-                <button id="editBtn" class="btn btn-primary">Edit Profile</button>
-              </div>
-            @else
-              <div class="info-box"><label>Name:</label><span id="pname2">Guest</span></div>
-              <div class="info-box"><label>Email:</label><span id="pemail">Not Available</span></div>
-              <div class="info-box"><label>Phone:</label><span id="pphone">Not Available</span></div>
-              <div class="info-box"><label>Age:</label><span id="page">Not Available</span></div>
-              <div class="info-box"><label>Address:</label><span id="paddress">Not Available</span></div>
-              <div class="info-box"><label>About Me:</label><span id="pbio">Not Available</span></div>
+        <div class="info-group">
+            <label>About:</label><br>
+            <span id="dAbout">{{ auth()->user()->about }}</span>
+        </div>
 
-              <div class="profile-buttons">
-                <a href="/login" class="back-btn">Login to Edit</a>
-              </div>
-            @endif
-          </div>
+        <button class="btn btn-edit" onclick="enableEdit()">Edit Profile</button>
+        <a class="btn btn-edit" style="text-decoration: none" href="{{ route('viewUserDashboard') }}">Back</a>
 
-          <!-- EDIT MODE (HIDDEN AT FIRST) -->
-          @if(auth()->check()) <!-- Show edit mode only if user is authenticated -->
-            <div id="editMode" style="display:none;">
-              <form id="updateForm">
-                @csrf
+    </div>
 
-                <label>Phone:</label>
-                <input type="text" name="phone" value="{{ auth()->user()->phone }}">
+    {{-- Edit Mode --}}
+    <div id="editMode" style="display: none;">
+        <form id="updateForm">
+            @csrf
 
-                <label>Age:</label>
-                <input type="number" name="age" value="{{ auth()->user()->age }}">
-
-                <label>Address:</label>
-                <input type="text" name="address" value="{{ auth()->user()->address }}">
-
-                <label>About Me:</label>
-                <textarea name="about">{{ auth()->user()->about }}</textarea>
-
-                <div class="profile-buttons">
-                  <button type="submit" class="btn btn-primary">Save Changes</button>
-                  <button type="button" id="cancelBtn" class="back-btn">Cancel</button>
-                </div>
-              </form>
-
-              <p id="message" style="margin-top:10px;"></p>
+            <div class="info-group">
+                <label>Name:</label>
+                <input type="text" name="name" class="edit-input" value="{{ auth()->user()->name }}">
             </div>
-          @endif
 
-        </div>
-      </section>
-    </main>
-  </div>
+            <div class="info-group">
+                <label>Contact Number:</label>
+                <input type="text" name="contact_number" class="edit-input" value="{{ auth()->user()->contact_number }}">
+            </div>
 
-  <script>
-    // Switch to edit mode
-    document.getElementById("editBtn")?.addEventListener("click", () => {
-      document.getElementById("displayMode").style.display = "none";
-      document.getElementById("editMode").style.display = "block";
-    });
+            <div class="info-group">
+                <label>Age:</label>
+                <input type="number" name="age" class="edit-input" value="{{ auth()->user()->age }}">
+            </div>
 
-    // Cancel editing
-    document.getElementById("cancelBtn")?.addEventListener("click", () => {
-      document.getElementById("editMode").style.display = "none";
-      document.getElementById("displayMode").style.display = "block";
-    });
+            <div class="info-group">
+                <label>Address:</label>
+                <input type="text" name="address" class="edit-input" value="{{ auth()->user()->address }}">
+            </div>
 
-    // AJAX update (no redirect, no new page)
-    document.getElementById("updateForm")?.addEventListener("submit", function(e) {
-      e.preventDefault();
+            <div class="info-group">
+                <label>About:</label>
+                <textarea name="about" class="edit-input" rows="3">{{ auth()->user()->about }}</textarea>
+            </div>
 
-      let formData = new FormData(this);
+            <button type="button" class="btn btn-save" onclick="saveProfile()">Save Changes</button>
+            <button type="button" class="btn btn-cancel" onclick="cancelEdit()">Cancel</button>
+        </form>
+    </div>
 
-      fetch("{{ route('profile.update') }}", {
-        method: "POST",
-        headers: { "X-CSRF-TOKEN": "{{ csrf_token() }}" },
-        body: formData
-      })
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById("message").innerText = "Profile updated successfully!";
+</div>
 
-        // Update display values immediately
-        document.getElementById("pphone").innerText = formData.get("phone");
-        document.getElementById("page").innerText = formData.get("age");
-        document.getElementById("paddress").innerText = formData.get("address");
-        document.getElementById("pbio").innerText = formData.get("about");
+<script>
+    function enableEdit() {
+        document.getElementById('displayMode').style.display = 'none';
+        document.getElementById('editMode').style.display = 'block';
+    }
 
-        // Switch back to display mode
-        setTimeout(() => {
-          document.getElementById("editMode").style.display = "none";
-          document.getElementById("displayMode").style.display = "block";
-        }, 800);
-      });
-    });
-  </script>
+    function cancelEdit() {
+        document.getElementById('editMode').style.display = 'none';
+        document.getElementById('displayMode').style.display = 'block';
+    }
+
+    function saveProfile() {
+        let formData = new FormData(document.getElementById('updateForm'));
+
+        fetch("{{ route('updateProfile') }}", {
+            method: "POST",
+            headers: {
+                "X-CSRF-TOKEN": "{{ csrf_token() }}"
+            },
+            body: formData
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('dName').innerText = formData.get('name');
+                    document.getElementById('dContact').innerText = formData.get('contact_number');
+                    document.getElementById('dAge').innerText = formData.get('age');
+                    document.getElementById('dAddress').innerText = formData.get('address');
+                    document.getElementById('dAbout').innerText = formData.get('about');
+
+                    cancelEdit();
+                }
+            });
+    }
+</script>
 
 </body>
 </html>
